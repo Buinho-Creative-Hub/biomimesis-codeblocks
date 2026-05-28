@@ -421,20 +421,18 @@ document.getElementById('btnGo').addEventListener('click', async function() {
 </html>"""
 
 
+
 @app.route("/")
 def index():
-    import json as _json
     lang = request.args.get("lang", "pt")
     if lang not in ("pt", "en", "es"):
         lang = "pt"
-    t_obj = type('T', (), TRANSLATIONS[lang])()
-    t_json = _json.dumps(TRANSLATIONS[lang])
-    return render_template_string(HTML, lang=lang, t=t_obj, t_json=t_json)
+    t = TRANSLATIONS[lang]
+    return render_template_string(HTML, lang=lang, t=t)
 
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
-    import json as _json
     data = request.get_json()
     if not data or "image_b64" not in data:
         return jsonify({"error": "Imagem em falta"}), 400
@@ -449,7 +447,7 @@ def analyze():
 
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-5",
+            model="claude-sonnet-4-20250514",
             max_tokens=2000,
             system=system,
             messages=[{
@@ -464,14 +462,13 @@ def analyze():
         s, e = raw.find("{"), raw.rfind("}")
         if s < 0 or e < 0:
             return jsonify({"error": "Resposta inválida"}), 500
-        return jsonify(_json.loads(raw[s:e+1]))
+        return jsonify(json.loads(raw[s:e+1]))
 
     except Exception as ex:
         import traceback
-        tb = traceback.format_exc()
         print("ERRO ANALYZE:", str(ex))
-        print("TRACEBACK:", tb)
-        return jsonify({"error": str(ex), "traceback": tb[:500]}), 500
+        print(traceback.format_exc())
+        return jsonify({"error": str(ex)}), 500
 
 
 if __name__ == "__main__":
