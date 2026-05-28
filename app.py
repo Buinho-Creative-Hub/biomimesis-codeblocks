@@ -38,8 +38,8 @@ Devolve APENAS este JSON (textos na língua pedida):
       {"type": "set", "keyword": "Set", "variable": "Raio Atual", "value": "Raio Base * (Crescimento ^ i)"},
       {"type": "set", "keyword": "Set", "variable": "Ang Atual", "value": "Ângulo * i"},
       {"type": "fn", "keyword": "Add Sphere", "variable": "Radius 5", "value": null},
-      {"type": "move", "keyword": "Move X", "variable": "cos(Ang Atual) * Raio Atual", "value": null},
-      {"type": "move", "keyword": "Move Y", "variable": "sin(Ang Atual) * Raio Atual", "value": null},
+      {"type": "move", "keyword": "Move X", "variable": "cos(Ang Atual) * i", "value": null},
+      {"type": "move", "keyword": "Move Y", "variable": "sin(Ang Atual) * i", "value": null},
       {"type": "move", "keyword": "Move Z", "variable": "i * 0.3", "value": null},
       {"type": "change", "keyword": "Change i", "variable": "by", "value": "+1"}
     ]
@@ -47,6 +47,13 @@ Devolve APENAS este JSON (textos na língua pedida):
   "momento4": {
     "passos": [
       "5 a 6 passos muito detalhados para uma criança de 8 anos, com os nomes exactos dos blocos Tinkercad. O último passo DEVE mencionar o bloco Change i by 1 e explicar que sem ele nada se move."
+    ],
+    "troubleshooting": [
+      {
+        "sintoma": "descrição curta e visual do problema que o aluno vê no Tinkercad (ex: as esferas estão muito afastadas)",
+        "dica": "pergunta ou pista pedagógica que leva o aluno a raciocinar — NÃO dá a resposta directa. Específica para este padrão.",
+        "solucao": "a solução concreta para este padrão específico, em linguagem simples"
+      }
     ]
   },
   "momento5": {
@@ -54,7 +61,9 @@ Devolve APENAS este JSON (textos na língua pedida):
     "aplicacoes_humanas": ["2 aplicações humanas inspiradas neste padrão"],
     "pergunta_reflexao": "Uma pergunta aberta para o aluno explorar."
   }
-}"""
+}
+
+Para o campo troubleshooting, gera 3 a 4 problemas ESPECÍFICOS para este padrão — pensa nos erros mais comuns que uma criança cometeria ao tentar reproduzi-lo no Tinkercad Codeblocks. Os sintomas devem descrever o que o aluno VÊ no ecrã, não o erro técnico."""
 
 LEVELS = {
     "pt": {"basic": "iniciante (6-7 anos)", "intermediate": "intermédio (8-9 anos)", "advanced": "avançado (9-10 anos)"},
@@ -78,7 +87,21 @@ TRANSLATIONS = {
         "m1": "observar", "m2": "abstrair", "m3": "emular", "m4": "prototipar", "m5": "transferir",
         "m2_title": "abstrair as variáveis", "m3_title": "emular em Codeblocks",
         "m4_title": "prototipar no Tinkercad", "m5_title": "transferir e avaliar",
-        "nature_lbl": "na natureza", "human_lbl": "feito por humanos", "think_lbl": "para pensar"
+        "nature_lbl": "na natureza", "human_lbl": "feito por humanos", "think_lbl": "para pensar",
+        "ts_trigger": "o resultado não está certo?",
+        "ts_q": "O que vês no Tinkercad?",
+        "ts_restart": "recomeçar",
+        "ts_other": "tenho outro problema",
+        "ts_worked": "funcionou!",
+        "ts_solved_title": "Boa! Problema resolvido.",
+        "ts_solved_hint": "Continua a experimentar os valores — cada combinação cria um padrão diferente!",
+        "ts_fallback_title": "Problemas comuns",
+        "ts_fb1_s": "todas as esferas aparecem no mesmo sítio",
+        "ts_fb1_d": "O bloco Change i by 1 está dentro do loop Repeat? Se estiver fora, o contador nunca avança e todas as esferas ficam na posição i=1.",
+        "ts_fb1_sol": "Move o bloco Change i by 1 para dentro do bloco laranja do Repeat.",
+        "ts_fb2_s": "as esferas ficam todas numa linha reta",
+        "ts_fb2_d": "Confirma que estás a usar Ângulo * i para calcular o Ângulo Atual. O número 137 é especial — é o ângulo de ouro que cria espirais naturais!",
+        "ts_fb2_sol": "Verifica a fórmula do Ângulo Atual: deve ser Ângulo * i, com Ângulo = 137."
     },
     "en": {
         "pattern_lbl": "natural pattern",
@@ -95,7 +118,21 @@ TRANSLATIONS = {
         "m1": "observe", "m2": "abstract", "m3": "emulate", "m4": "prototype", "m5": "transfer",
         "m2_title": "abstract the variables", "m3_title": "emulate in Codeblocks",
         "m4_title": "prototype in Tinkercad", "m5_title": "transfer & evaluate",
-        "nature_lbl": "in nature", "human_lbl": "made by humans", "think_lbl": "think about it"
+        "nature_lbl": "in nature", "human_lbl": "made by humans", "think_lbl": "think about it",
+        "ts_trigger": "result doesn't look right?",
+        "ts_q": "What do you see in Tinkercad?",
+        "ts_restart": "start over",
+        "ts_other": "I have another problem",
+        "ts_worked": "it worked!",
+        "ts_solved_title": "Great! Problem solved.",
+        "ts_solved_hint": "Keep experimenting with the values — every combination creates a different pattern!",
+        "ts_fallback_title": "Common problems",
+        "ts_fb1_s": "all spheres appear in the same place",
+        "ts_fb1_d": "Is the Change i by 1 block inside the Repeat loop? If it's outside, the counter never advances and all spheres stay at position i=1.",
+        "ts_fb1_sol": "Move the Change i by 1 block inside the orange Repeat block.",
+        "ts_fb2_s": "all spheres form a straight line",
+        "ts_fb2_d": "Check that you're using Angle * i to calculate Current Angle. The number 137 is special — it's the golden angle that creates natural spirals!",
+        "ts_fb2_sol": "Check the Current Angle formula: it should be Angle * i, with Angle = 137."
     },
     "es": {
         "pattern_lbl": "patrón natural",
@@ -112,7 +149,21 @@ TRANSLATIONS = {
         "m1": "observar", "m2": "abstraer", "m3": "emular", "m4": "prototipar", "m5": "transferir",
         "m2_title": "abstraer las variables", "m3_title": "emular en Codeblocks",
         "m4_title": "prototipar en Tinkercad", "m5_title": "transferir y evaluar",
-        "nature_lbl": "en la naturaleza", "human_lbl": "hecho por humanos", "think_lbl": "para reflexionar"
+        "nature_lbl": "en la naturaleza", "human_lbl": "hecho por humanos", "think_lbl": "para reflexionar",
+        "ts_trigger": "¿el resultado no está bien?",
+        "ts_q": "¿Qué ves en Tinkercad?",
+        "ts_restart": "empezar de nuevo",
+        "ts_other": "tengo otro problema",
+        "ts_worked": "¡funcionó!",
+        "ts_solved_title": "¡Muy bien! Problema resuelto.",
+        "ts_solved_hint": "Sigue experimentando con los valores — ¡cada combinación crea un patrón diferente!",
+        "ts_fallback_title": "Problemas comunes",
+        "ts_fb1_s": "todas las esferas aparecen en el mismo sitio",
+        "ts_fb1_d": "¿El bloque Change i by 1 está dentro del bucle Repeat? Si está fuera, el contador nunca avanza.",
+        "ts_fb1_sol": "Mueve el bloque Change i by 1 dentro del bloque naranja Repeat.",
+        "ts_fb2_s": "las esferas forman una línea recta",
+        "ts_fb2_d": "Comprueba que usas Ángulo * i para calcular el Ángulo Actual. ¡El número 137 es el ángulo dorado que crea espirales naturales!",
+        "ts_fb2_sol": "Verifica la fórmula del Ángulo Actual: debe ser Ángulo * i, con Ángulo = 137."
     }
 }
 
@@ -179,6 +230,39 @@ select{width:100%;font-family:'Asap',sans-serif;font-size:13px;padding:8px 10px;
 .chip{background:#2038A615;color:#2038A6;font-size:11px;font-weight:600;padding:3px 9px;border-radius:12px;display:inline-block;margin:2px}
 .chip-o{background:#FA641515;color:#FA6415;font-size:11px;font-weight:600;padding:3px 9px;border-radius:12px;display:inline-block;margin:2px}
 .vcard{margin-bottom:8px;padding:8px 10px;background:#2038A608;border-radius:6px;border-left:3px solid #FA6415}
+.ts-divider{border:none;border-top:1.5px dashed #2038A640;margin:14px 0}
+.ts-trigger{display:flex;align-items:center;gap:8px;background:#F23A2F0D;border:1.5px solid #F23A2F30;border-radius:8px;padding:10px 12px;cursor:pointer;transition:.15s;width:100%;font-family:'Asap',sans-serif}
+.ts-trigger:hover{background:#F23A2F18;border-color:#F23A2F60}
+.ts-trigger-icon{font-size:15px;color:#F23A2F}
+.ts-trigger-lbl{font-size:12px;font-weight:700;color:#F23A2F;flex:1;text-align:left}
+.ts-arr{font-size:11px;color:#F23A2F80}
+.ts-panel{display:none;flex-direction:column;gap:0;margin-top:10px}
+.ts-panel.open{display:flex}
+.ts-bc{display:flex;align-items:center;gap:6px;margin-bottom:8px;min-height:18px}
+.ts-back{background:none;border:none;font-family:'Asap',sans-serif;font-size:11px;font-weight:700;color:#FA6415;cursor:pointer;padding:0;display:none}
+.ts-back:hover{text-decoration:underline}
+.ts-node{display:none;flex-direction:column;gap:8px}
+.ts-node.active{display:flex}
+.ts-node-q{font-size:12px;font-weight:700;color:#2038A6;margin-bottom:4px}
+.ts-opts{display:flex;flex-direction:column;gap:6px}
+.ts-opt{background:#FAF0E1;border:1.5px solid #2038A640;border-radius:6px;padding:8px 10px;font-family:'Asap',sans-serif;font-size:11px;font-weight:600;color:#2038A6;cursor:pointer;text-align:left;transition:.15s}
+.ts-opt:hover{background:#F0E4CC;border-color:#2038A6}
+.ts-detail{background:#fff;border:1.5px solid #F23A2F30;border-radius:8px;padding:10px 12px;border-left:3px solid #F23A2F;display:none;flex-direction:column;gap:6px}
+.ts-detail.active{display:flex}
+.ts-detail-hint{font-size:11px;color:#2038A6aa;line-height:1.6;background:#2038A608;border-radius:6px;padding:8px 10px;border-left:3px solid #2038A630}
+.ts-detail-hint code{background:#2038A615;border-radius:3px;padding:1px 5px;font-family:monospace;font-size:10px;color:#2038A6}
+.ts-detail-sol{font-size:11px;color:#2038A6;font-weight:600;background:#FCB51515;border-radius:6px;padding:7px 10px;border-left:3px solid #FCB515}
+.ts-detail-btns{display:flex;gap:6px;flex-wrap:wrap}
+.ts-btn-ok{background:#2DB87010;border:1.5px solid #2DB87040;border-radius:6px;padding:6px 10px;font-family:'Asap',sans-serif;font-size:11px;font-weight:700;color:#1a7a4a;cursor:pointer;transition:.15s}
+.ts-btn-ok:hover{background:#2DB87020}
+.ts-btn-more{background:#FAF0E1;border:1.5px solid #2038A640;border-radius:6px;padding:6px 10px;font-family:'Asap',sans-serif;font-size:11px;font-weight:700;color:#2038A6;cursor:pointer;transition:.15s}
+.ts-btn-more:hover{background:#F0E4CC}
+.ts-solved{background:#2DB87010;border:1.5px solid #2DB87040;border-radius:8px;padding:12px 14px;display:none;flex-direction:column;gap:6px}
+.ts-solved.active{display:flex}
+.ts-solved-t{font-size:12px;font-weight:700;color:#1a7a4a}
+.ts-solved-txt{font-size:11px;color:#1a7a4aaa;line-height:1.5}
+.ts-restart{background:none;border:1.5px solid #2DB87060;border-radius:6px;padding:6px 10px;font-family:'Asap',sans-serif;font-size:11px;font-weight:700;color:#1a7a4a;cursor:pointer;margin-top:2px}
+.ts-restart:hover{background:#2DB87015}
 </style>
 </head>
 <body>
@@ -262,164 +346,218 @@ select{width:100%;font-family:'Asap',sans-serif;font-size:13px;padding:8px 10px;
 <script>
 var LANG = '{{ lang }}';
 var ALL_T = {
-  pt: {
-    pattern_lbl:"padrão natural", upload_btn:"clica aqui para carregar foto", upload_hint:"folha · concha · favo · espiral · casca",
-    level_lbl:"nível do aluno", level_basic:"iniciante — 1º e 2º ano", level_intermediate:"intermédio — 3º e 4º ano", level_advanced:"avançado — com experiência Codeblocks",
-    analyze_btn:"analisar padrão", analyze_btn2:"analisar outro padrão",
-    empty:"clica em \"carregar foto\" e escolhe uma imagem de um padrão da natureza", error:"Erro: ",
-    m1:"observar", m2:"abstrair", m3:"emular", m4:"prototipar", m5:"transferir",
-    m2_title:"abstrair as variáveis", m3_title:"emular em Codeblocks", m4_title:"prototipar no Tinkercad", m5_title:"transferir e avaliar",
-    nature_lbl:"na natureza", human_lbl:"feito por humanos", think_lbl:"para pensar"
-  },
-  en: {
-    pattern_lbl:"natural pattern", upload_btn:"click here to upload photo", upload_hint:"leaf · shell · honeycomb · spiral · bark",
-    level_lbl:"student level", level_basic:"beginner — year 1 & 2", level_intermediate:"intermediate — year 3 & 4", level_advanced:"advanced — with Codeblocks experience",
-    analyze_btn:"analyse pattern", analyze_btn2:"analyse another pattern",
-    empty:"click \"upload photo\" and choose an image of a natural pattern", error:"Error: ",
-    m1:"observe", m2:"abstract", m3:"emulate", m4:"prototype", m5:"transfer",
-    m2_title:"abstract the variables", m3_title:"emulate in Codeblocks", m4_title:"prototype in Tinkercad", m5_title:"transfer & evaluate",
-    nature_lbl:"in nature", human_lbl:"made by humans", think_lbl:"think about it"
-  },
-  es: {
-    pattern_lbl:"patrón natural", upload_btn:"haz clic aquí para subir foto", upload_hint:"hoja · concha · panal · espiral · corteza",
-    level_lbl:"nivel del alumno", level_basic:"iniciante — 1º y 2º curso", level_intermediate:"intermedio — 3º y 4º curso", level_advanced:"avanzado — con experiencia Codeblocks",
-    analyze_btn:"analizar patrón", analyze_btn2:"analizar otro patrón",
-    empty:"haz clic en \"subir foto\" y elige una imagen de un patrón de la naturaleza", error:"Error: ",
-    m1:"observar", m2:"abstraer", m3:"emular", m4:"prototipar", m5:"transferir",
-    m2_title:"abstraer las variables", m3_title:"emular en Codeblocks", m4_title:"prototipar en Tinkercad", m5_title:"transferir y evaluar",
-    nature_lbl:"en la naturaleza", human_lbl:"hecho por humanos", think_lbl:"para reflexionar"
-  }
+  pt:{pattern_lbl:"padrão natural",upload_btn:"clica aqui para carregar foto",upload_hint:"folha · concha · favo · espiral · casca",level_lbl:"nível do aluno",level_basic:"iniciante — 1º e 2º ano",level_intermediate:"intermédio — 3º e 4º ano",level_advanced:"avançado — com experiência Codeblocks",analyze_btn:"analisar padrão",analyze_btn2:"analisar outro padrão",empty:"clica em \"carregar foto\" e escolhe uma imagem de um padrão da natureza",error:"Erro: ",m1:"observar",m2:"abstrair",m3:"emular",m4:"prototipar",m5:"transferir",m2_title:"abstrair as variáveis",m3_title:"emular em Codeblocks",m4_title:"prototipar no Tinkercad",m5_title:"transferir e avaliar",nature_lbl:"na natureza",human_lbl:"feito por humanos",think_lbl:"para pensar",ts_trigger:"o resultado não está certo?",ts_q:"O que vês no Tinkercad?",ts_restart:"recomeçar",ts_other:"tenho outro problema",ts_worked:"funcionou!",ts_solved_title:"Boa! Problema resolvido.",ts_solved_hint:"Continua a experimentar — cada combinação cria um padrão diferente!",ts_fb1_s:"todas as esferas aparecem no mesmo sítio",ts_fb1_d:"O bloco <code>Change i by 1</code> está dentro do loop Repeat? Se estiver fora, o contador nunca avança e todas as esferas ficam na posição i=1.",ts_fb1_sol:"Move o bloco <code>Change i by 1</code> para dentro do bloco laranja do Repeat.",ts_fb2_s:"as esferas ficam todas numa linha reta",ts_fb2_d:"Confirma que estás a usar <code>Ângulo * i</code> para calcular o Ângulo Atual. O número 137 é especial — é o ângulo de ouro que cria espirais naturais!",ts_fb2_sol:"Verifica a fórmula do Ângulo Atual: deve ser <code>Ângulo * i</code>, com Ângulo = 137."},
+  en:{pattern_lbl:"natural pattern",upload_btn:"click here to upload photo",upload_hint:"leaf · shell · honeycomb · spiral · bark",level_lbl:"student level",level_basic:"beginner — year 1 & 2",level_intermediate:"intermediate — year 3 & 4",level_advanced:"advanced — with Codeblocks experience",analyze_btn:"analyse pattern",analyze_btn2:"analyse another pattern",empty:"click \"upload photo\" and choose an image of a natural pattern",error:"Error: ",m1:"observe",m2:"abstract",m3:"emulate",m4:"prototype",m5:"transfer",m2_title:"abstract the variables",m3_title:"emulate in Codeblocks",m4_title:"prototype in Tinkercad",m5_title:"transfer & evaluate",nature_lbl:"in nature",human_lbl:"made by humans",think_lbl:"think about it",ts_trigger:"result doesn't look right?",ts_q:"What do you see in Tinkercad?",ts_restart:"start over",ts_other:"I have another problem",ts_worked:"it worked!",ts_solved_title:"Great! Problem solved.",ts_solved_hint:"Keep experimenting — every combination creates a different pattern!",ts_fb1_s:"all spheres appear in the same place",ts_fb1_d:"Is the <code>Change i by 1</code> block inside the Repeat loop? If outside, the counter never advances.",ts_fb1_sol:"Move the <code>Change i by 1</code> block inside the orange Repeat block.",ts_fb2_s:"all spheres form a straight line",ts_fb2_d:"Check you're using <code>Angle * i</code> for Current Angle. 137 is the golden angle that creates natural spirals!",ts_fb2_sol:"Check Current Angle formula: it should be <code>Angle * i</code>, with Angle = 137."},
+  es:{pattern_lbl:"patrón natural",upload_btn:"haz clic aquí para subir foto",upload_hint:"hoja · concha · panal · espiral · corteza",level_lbl:"nivel del alumno",level_basic:"iniciante — 1º y 2º curso",level_intermediate:"intermedio — 3º y 4º curso",level_advanced:"avanzado — con experiencia Codeblocks",analyze_btn:"analizar patrón",analyze_btn2:"analizar otro patrón",empty:"haz clic en \"subir foto\" y elige una imagen de un patrón de la naturaleza",error:"Error: ",m1:"observar",m2:"abstraer",m3:"emular",m4:"prototipar",m5:"transferir",m2_title:"abstraer las variables",m3_title:"emular en Codeblocks",m4_title:"prototipar en Tinkercad",m5_title:"transferir y evaluar",nature_lbl:"en la naturaleza",human_lbl:"hecho por humanos",think_lbl:"para reflexionar",ts_trigger:"¿el resultado no está bien?",ts_q:"¿Qué ves en Tinkercad?",ts_restart:"empezar de nuevo",ts_other:"tengo otro problema",ts_worked:"¡funcionó!",ts_solved_title:"¡Muy bien! Problema resuelto.",ts_solved_hint:"¡Sigue experimentando — cada combinación crea un patrón diferente!",ts_fb1_s:"todas las esferas aparecen en el mismo sitio",ts_fb1_d:"¿El bloque <code>Change i by 1</code> está dentro del bucle Repeat? Si está fuera, el contador nunca avanza.",ts_fb1_sol:"Mueve el bloque <code>Change i by 1</code> dentro del bloque naranja Repeat.",ts_fb2_s:"las esferas forman una línea recta",ts_fb2_d:"Comprueba que usas <code>Ángulo * i</code> para el Ángulo Actual. ¡137 es el ángulo dorado que crea espirales naturales!",ts_fb2_sol:"Verifica la fórmula del Ángulo Actual: debe ser <code>Ángulo * i</code>, con Ángulo = 137."}
 };
 var T = ALL_T[LANG];
 
-function setLang(l) {
-  LANG = l;
-  T = ALL_T[l];
-  // update lang buttons
-  document.querySelectorAll('.lang-btn').forEach(function(b) {
-    b.classList.toggle('on', b.textContent.trim().toLowerCase() === l);
-  });
-  // update static UI strings
-  document.querySelector('.slbl').textContent = T.pattern_lbl;
-  document.querySelector('.up-t').textContent = T.upload_btn;
-  document.querySelector('.up-h').textContent = T.upload_hint;
-  var lvlLbls = document.querySelectorAll('.slbl');
-  if (lvlLbls[1]) lvlLbls[1].textContent = T.level_lbl;
-  var opts = document.getElementById('lvl').options;
-  opts[0].text = T.level_basic; opts[1].text = T.level_intermediate; opts[2].text = T.level_advanced;
-  document.getElementById('lbl-go').textContent = T.analyze_btn;
-  document.querySelector('.empty p').textContent = T.empty;
-  // update pills
-  var pillLabels = [T.m1, T.m2, T.m3, T.m4, T.m5];
-  document.querySelectorAll('.pill').forEach(function(p, i) {
-    p.textContent = (i+1) + ' · ' + pillLabels[i];
-    if (p.classList.contains('on')) p.textContent = (i+1) + ' · ' + pillLabels[i];
-  });
-  // update card titles
-  var titles = [T.m1, T.m2_title, T.m3_title, T.m4_title, T.m5_title];
-  document.querySelectorAll('.mtit').forEach(function(el, i) { el.textContent = titles[i]; });
-  // update html lang
-  document.documentElement.lang = l;
+function setLang(l){
+  LANG=l;T=ALL_T[l];
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('on',b.textContent.trim().toLowerCase()===l);});
+  document.querySelector('.slbl').textContent=T.pattern_lbl;
+  document.querySelector('.up-t').textContent=T.upload_btn;
+  document.querySelector('.up-h').textContent=T.upload_hint;
+  var lvlLbls=document.querySelectorAll('.slbl');
+  if(lvlLbls[1])lvlLbls[1].textContent=T.level_lbl;
+  var opts=document.getElementById('lvl').options;
+  opts[0].text=T.level_basic;opts[1].text=T.level_intermediate;opts[2].text=T.level_advanced;
+  document.getElementById('lbl-go').textContent=T.analyze_btn;
+  document.querySelector('.empty p').textContent=T.empty;
+  var pillLabels=[T.m1,T.m2,T.m3,T.m4,T.m5];
+  document.querySelectorAll('.pill').forEach(function(p,i){p.textContent=(i+1)+' · '+pillLabels[i];});
+  var titles=[T.m1,T.m2_title,T.m3_title,T.m4_title,T.m5_title];
+  document.querySelectorAll('.mtit').forEach(function(el,i){el.textContent=titles[i];});
+  document.documentElement.lang=l;
 }
 
-var imgB64 = null, imgMime = 'image/jpeg', result = null;
+var imgB64=null,imgMime='image/jpeg',result=null;
 
-document.getElementById('fi').addEventListener('change', function(e) {
-  var f = e.target.files[0];
-  if (!f) return;
-  imgMime = ['image/jpeg','image/png','image/gif','image/webp'].indexOf(f.type) >= 0 ? f.type : 'image/jpeg';
-  var r = new FileReader();
-  r.onload = function(ev) {
-    imgB64 = ev.target.result.split(',')[1];
-    var p = document.getElementById('prevImg');
-    p.src = ev.target.result;
-    p.style.display = 'block';
-    document.getElementById('upzone').style.display = 'none';
-    document.getElementById('btnGo').disabled = false;
-    document.getElementById('errmsg').style.display = 'none';
+document.getElementById('fi').addEventListener('change',function(e){
+  var f=e.target.files[0];
+  if(!f)return;
+  imgMime=['image/jpeg','image/png','image/gif','image/webp'].indexOf(f.type)>=0?f.type:'image/jpeg';
+  var r=new FileReader();
+  r.onload=function(ev){
+    imgB64=ev.target.result.split(',')[1];
+    var p=document.getElementById('prevImg');
+    p.src=ev.target.result;p.style.display='block';
+    document.getElementById('upzone').style.display='none';
+    document.getElementById('btnGo').disabled=false;
+    document.getElementById('errmsg').style.display='none';
   };
   r.readAsDataURL(f);
 });
 
-document.querySelectorAll('.pill').forEach(function(p) {
-  p.addEventListener('click', function() { if (result) showM(parseInt(p.dataset.m)); });
+document.querySelectorAll('.pill').forEach(function(p){
+  p.addEventListener('click',function(){if(result)showM(parseInt(p.dataset.m));});
 });
 
-function showM(m) {
-  document.querySelectorAll('.pill').forEach(function(p) {
-    p.classList.toggle('on', parseInt(p.dataset.m) === m);
-  });
-  document.querySelectorAll('.mcard').forEach(function(c) { c.classList.remove('on'); });
-  document.getElementById('c' + m).classList.add('on');
+function showM(m){
+  document.querySelectorAll('.pill').forEach(function(p){p.classList.toggle('on',parseInt(p.dataset.m)===m);});
+  document.querySelectorAll('.mcard').forEach(function(c){c.classList.remove('on');});
+  document.getElementById('c'+m).classList.add('on');
 }
 
-function cbBlocks(blocks) {
-  if (!blocks || !blocks.length) return '';
-  var map = {set:'cs', repeat:'cr', fn:'cf', move:'cm', change:'cr'};
-  return blocks.map(function(b) {
-    return '<div class="cbl">' +
-      '<span class="cbb ' + (map[b.type]||'cs') + '">' + (b.keyword||'Set') + '</span>' +
-      (b.variable ? '<span class="cbb cv">' + b.variable + '</span>' : '') +
-      (b.value != null ? '<span style="font-size:10px;color:#2038A660">→</span><span class="cbb cval">' + b.value + '</span>' : '') +
+function cbBlocks(blocks){
+  if(!blocks||!blocks.length)return'';
+  var map={set:'cs',repeat:'cr',fn:'cf',move:'cm',change:'cr'};
+  return blocks.map(function(b){
+    return'<div class="cbl">'+
+      '<span class="cbb '+(map[b.type]||'cs')+'">'+(b.keyword||'Set')+'</span>'+
+      (b.variable?'<span class="cbb cv">'+b.variable+'</span>':'')+
+      (b.value!=null?'<span style="font-size:10px;color:#2038A660">→</span><span class="cbb cval">'+b.value+'</span>':'')+
       '</div>';
   }).join('');
 }
 
-document.getElementById('btnGo').addEventListener('click', async function() {
-  if (!imgB64) return;
-  var level = document.getElementById('lvl').value;
-  var err = document.getElementById('errmsg');
-  err.style.display = 'none';
-  document.getElementById('btnGo').disabled = true;
-  document.getElementById('btnGo').innerHTML = '<div class="lds"><span></span><span></span><span></span></div>';
+/* ── TROUBLESHOOTING ── */
+var tsItems=[];
+var tsCurrent=-1;
+var tsOpen=false;
 
-  try {
-    var res = await fetch('/analyze', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({image_b64: imgB64, mime_type: imgMime, level: level, lang: LANG})
-    });
-    if (!res.ok) throw new Error(T.error + res.status);
-    var d = await res.json();
-    if (d.error) throw new Error(d.error);
-    result = d;
+function tsInit(items){
+  tsItems=items||[];
+  tsCurrent=-1;
+  tsOpen=false;
+  var panel=document.getElementById('tsPanel');
+  if(panel){panel.classList.remove('open');panel.innerHTML='';}
+  var trig=document.getElementById('tsTrigger');
+  if(trig)trig.querySelector('.ts-arr').textContent='▾';
+}
 
-    document.getElementById('empt').style.display = 'none';
-    document.getElementById('mnav').style.display = 'flex';
+function tsBuild(){
+  var panel=document.getElementById('tsPanel');
+  if(!panel)return;
+  var fb=[
+    {sintoma:T.ts_fb1_s,dica:T.ts_fb1_d,solucao:T.ts_fb1_sol},
+    {sintoma:T.ts_fb2_s,dica:T.ts_fb2_d,solucao:T.ts_fb2_sol}
+  ];
+  var all=tsItems.concat(fb);
+  var html='<div style="height:8px"></div>';
+  html+='<div id="tsBack" style="min-height:18px;margin-bottom:6px;display:none"><button class="ts-back" id="tsBtnBack" onclick="tsBack()">← '+T.ts_restart+'</button></div>';
+  html+='<div id="tsRoot" class="ts-node active">';
+  html+='<div class="ts-node-q">'+T.ts_q+'</div><div class="ts-opts">';
+  all.forEach(function(item,i){
+    html+='<button class="ts-opt" onclick="tsShow('+i+')">'+item.sintoma+'</button>';
+  });
+  html+='</div></div>';
+  all.forEach(function(item,i){
+    html+='<div id="tsItem'+i+'" class="ts-detail">';
+    html+='<div class="ts-detail-hint">'+item.dica+'</div>';
+    html+='<div class="ts-detail-sol">'+item.solucao+'</div>';
+    html+='<div class="ts-detail-btns">';
+    html+='<button class="ts-btn-ok" onclick="tsSolved()">✓ '+T.ts_worked+'</button>';
+    html+='<button class="ts-btn-more" onclick="tsRoot()">'+T.ts_other+'</button>';
+    html+='</div></div>';
+  });
+  html+='<div id="tsSolvedBox" class="ts-solved">';
+  html+='<div class="ts-solved-t">'+T.ts_solved_title+'</div>';
+  html+='<div class="ts-solved-txt">'+T.ts_solved_hint+'</div>';
+  html+='<button class="ts-restart" onclick="tsRoot()">'+T.ts_restart+'</button>';
+  html+='</div>';
+  panel.innerHTML=html;
+}
 
-    document.getElementById('b1').innerHTML = '<p style="margin-bottom:8px">' + d.momento1.texto + '</p><div>' +
-      (d.momento1.caracteristicas||[]).map(function(c){ return '<span class="chip">'+c+'</span>'; }).join('') + '</div>';
+function tsShow(i){
+  tsCurrent=i;
+  document.getElementById('tsRoot').classList.remove('active');
+  document.querySelectorAll('.ts-detail').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('tsSolvedBox').classList.remove('active');
+  document.getElementById('tsItem'+i).classList.add('active');
+  var back=document.getElementById('tsBack');
+  if(back)back.style.display='block';
+}
 
-    document.getElementById('b2').innerHTML = '<p style="margin-bottom:10px">' + d.momento2.texto + '</p>' +
-      (d.momento2.variaveis||[]).map(function(v){ return '<div class="vcard"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span class="vtag">'+v.nome+'</span><span style="font-size:13px;font-weight:700;color:#FA6415">'+v.valor_tipico+' '+v.unidade+'</span></div><p style="font-size:11px;color:#2038A6aa;line-height:1.5">'+v.explicacao+'</p></div>'; }).join('');
+function tsRoot(){
+  tsCurrent=-1;
+  document.getElementById('tsRoot').classList.add('active');
+  document.querySelectorAll('.ts-detail').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('tsSolvedBox').classList.remove('active');
+  var back=document.getElementById('tsBack');
+  if(back)back.style.display='none';
+}
 
-    document.getElementById('b3').innerHTML = '<p style="margin-bottom:8px">' + d.momento3.texto + '</p><div class="cbv">' + cbBlocks(d.momento3.blocos) + '</div>';
+function tsBack(){tsRoot();}
 
-    document.getElementById('b4').innerHTML = '<ol style="padding-left:16px;display:flex;flex-direction:column;gap:7px">' +
-      (d.momento4.passos||[]).map(function(p,i){ return '<li style="font-size:12px;line-height:1.5;color:#2038A6cc"><span style="font-weight:700;color:#2038A6">'+(i+1)+'.</span> '+p+'</li>'; }).join('') + '</ol>';
+function tsSolved(){
+  document.getElementById('tsRoot').classList.remove('active');
+  document.querySelectorAll('.ts-detail').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('tsSolvedBox').classList.add('active');
+}
 
-    document.getElementById('b5').innerHTML =
-      '<div style="margin-bottom:10px"><div class="slbl" style="margin-bottom:5px">'+T.nature_lbl+'</div><div>' +
-      (d.momento5.outros_exemplos||[]).map(function(e){ return '<span class="chip">'+e+'</span>'; }).join('') + '</div></div>' +
-      '<div style="margin-bottom:10px"><div class="slbl" style="margin-bottom:5px;color:#FA6415">'+T.human_lbl+'</div><div>' +
-      (d.momento5.aplicacoes_humanas||[]).map(function(e){ return '<span class="chip-o">'+e+'</span>'; }).join('') + '</div></div>' +
-      '<div style="background:#FCB51520;border-radius:6px;padding:10px 12px;border-left:3px solid #FCB515">' +
-      '<div style="font-size:10px;font-weight:700;color:#996600;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">'+T.think_lbl+'</div>' +
+document.addEventListener('click',function(e){
+  var trig=e.target.closest('#tsTrigger');
+  if(!trig)return;
+  tsOpen=!tsOpen;
+  var panel=document.getElementById('tsPanel');
+  panel.classList.toggle('open',tsOpen);
+  trig.querySelector('.ts-arr').textContent=tsOpen?'▴':'▾';
+  if(tsOpen&&panel.innerHTML==='')tsBuild();
+});
+/* ── END TROUBLESHOOTING ── */
+
+document.getElementById('btnGo').addEventListener('click',async function(){
+  if(!imgB64)return;
+  var level=document.getElementById('lvl').value;
+  var err=document.getElementById('errmsg');
+  err.style.display='none';
+  document.getElementById('btnGo').disabled=true;
+  document.getElementById('btnGo').innerHTML='<div class="lds"><span></span><span></span><span></span></div>';
+
+  try{
+    var res=await fetch('/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image_b64:imgB64,mime_type:imgMime,level:level,lang:LANG})});
+    if(!res.ok)throw new Error(T.error+res.status);
+    var d=await res.json();
+    if(d.error)throw new Error(d.error);
+    result=d;
+
+    document.getElementById('empt').style.display='none';
+    document.getElementById('mnav').style.display='flex';
+
+    document.getElementById('b1').innerHTML='<p style="margin-bottom:8px">'+d.momento1.texto+'</p><div>'+
+      (d.momento1.caracteristicas||[]).map(function(c){return'<span class="chip">'+c+'</span>';}).join('')+'</div>';
+
+    document.getElementById('b2').innerHTML='<p style="margin-bottom:10px">'+d.momento2.texto+'</p>'+
+      (d.momento2.variaveis||[]).map(function(v){return'<div class="vcard"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span class="vtag">'+v.nome+'</span><span style="font-size:13px;font-weight:700;color:#FA6415">'+v.valor_tipico+' '+v.unidade+'</span></div><p style="font-size:11px;color:#2038A6aa;line-height:1.5">'+v.explicacao+'</p></div>';}).join('');
+
+    document.getElementById('b3').innerHTML='<p style="margin-bottom:8px">'+d.momento3.texto+'</p><div class="cbv">'+cbBlocks(d.momento3.blocos)+'</div>';
+
+    var tsData=d.momento4.troubleshooting||[];
+    tsInit(tsData);
+    var m4html='<ol style="padding-left:16px;display:flex;flex-direction:column;gap:7px">'+
+      (d.momento4.passos||[]).map(function(p,i){return'<li style="font-size:12px;line-height:1.5;color:#2038A6cc"><span style="font-weight:700;color:#2038A6">'+(i+1)+'.</span> '+p+'</li>';}).join('')+
+      '</ol>';
+    m4html+='<hr class="ts-divider">';
+    m4html+='<button class="ts-trigger" id="tsTrigger">';
+    m4html+='<span class="ts-trigger-icon">?</span>';
+    m4html+='<span class="ts-trigger-lbl">'+T.ts_trigger+'</span>';
+    m4html+='<span class="ts-arr">▾</span>';
+    m4html+='</button>';
+    m4html+='<div class="ts-panel" id="tsPanel"></div>';
+    document.getElementById('b4').innerHTML=m4html;
+
+    document.getElementById('b5').innerHTML=
+      '<div style="margin-bottom:10px"><div class="slbl" style="margin-bottom:5px">'+T.nature_lbl+'</div><div>'+
+      (d.momento5.outros_exemplos||[]).map(function(e){return'<span class="chip">'+e+'</span>';}).join('')+'</div></div>'+
+      '<div style="margin-bottom:10px"><div class="slbl" style="margin-bottom:5px;color:#FA6415">'+T.human_lbl+'</div><div>'+
+      (d.momento5.aplicacoes_humanas||[]).map(function(e){return'<span class="chip-o">'+e+'</span>';}).join('')+'</div></div>'+
+      '<div style="background:#FCB51520;border-radius:6px;padding:10px 12px;border-left:3px solid #FCB515">'+
+      '<div style="font-size:10px;font-weight:700;color:#996600;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">'+T.think_lbl+'</div>'+
       '<p style="font-size:13px;color:#2038A6;font-weight:600;line-height:1.5">'+d.momento5.pergunta_reflexao+'</p></div>';
 
     showM(1);
-  } catch(e) {
-    err.textContent = T.error + e.message;
-    err.style.display = 'block';
+  }catch(e){
+    err.textContent=T.error+e.message;
+    err.style.display='block';
   }
 
-  document.getElementById('btnGo').disabled = false;
-  document.getElementById('btnGo').innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> ' + T.analyze_btn2;
+  document.getElementById('btnGo').disabled=false;
+  document.getElementById('btnGo').innerHTML='<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> '+T.analyze_btn2;
 });
 </script>
 </body>
 </html>"""
-
 
 
 @app.route("/")
@@ -448,7 +586,7 @@ def analyze():
     try:
         response = client.messages.create(
             model="claude-sonnet-4-20250514",
-            max_tokens=2000,
+            max_tokens=2500,
             system=system,
             messages=[{
                 "role": "user",
