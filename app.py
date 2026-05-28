@@ -148,7 +148,7 @@ select{width:100%;font-family:'Asap',sans-serif;font-size:13px;padding:8px 10px;
   <div class="panel-l">
     <div>
       <div class="label" id="lbl-pattern">{{ t.pattern_label }}</div>
-      <button class="upload-btn" id="btnUp" onclick="document.getElementById('fi').click()">
+      <label class="upload-btn" id="btnUp" for="fi">
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
           <rect x="3" y="7" width="26" height="18" rx="3" fill="#2038A615" stroke="#2038A6" stroke-width="1.5"/>
           <circle cx="12" cy="14" r="3" fill="#2038A630"/>
@@ -156,8 +156,8 @@ select{width:100%;font-family:'Asap',sans-serif;font-size:13px;padding:8px 10px;
         </svg>
         <div class="ut" id="lbl-upload">{{ t.upload_btn }}</div>
         <div class="uh" id="lbl-hint">{{ t.upload_hint }}</div>
-      </button>
-      <input type="file" id="fi" accept="image/*" style="display:none">
+      </label>
+      <input type="file" id="fi" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
       <img id="prevImg" alt="pattern">
     </div>
     <div>
