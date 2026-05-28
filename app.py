@@ -466,10 +466,12 @@ def analyze():
             return jsonify({"error": "Resposta inválida"}), 500
         return jsonify(_json.loads(raw[s:e+1]))
 
-    except _json.JSONDecodeError as ex:
-        return jsonify({"error": f"JSON inválido: {ex}"}), 500
     except Exception as ex:
-        return jsonify({"error": str(ex)}), 500
+        import traceback
+        tb = traceback.format_exc()
+        print("ERRO ANALYZE:", str(ex))
+        print("TRACEBACK:", tb)
+        return jsonify({"error": str(ex), "traceback": tb[:500]}), 500
 
 
 if __name__ == "__main__":
