@@ -7,9 +7,9 @@ app = Flask(__name__)
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
 SYSTEM_PROMPTS = {
-    "pt": "És especialista em biomimética e educação maker para crianças do 1º ciclo. Analisa a imagem de um padrão natural e gera orientações pedagógicas para reproduzir no Tinkercad Codeblocks. Responde APENAS com JSON válido, sem markdown nem texto extra. Todos os textos em PORTUGUÊS.",
-    "en": "You are a specialist in biomimicry and maker education for primary school children. Analyse the image of a natural pattern and generate pedagogical guidance to reproduce it in Tinkercad Codeblocks. Respond ONLY with valid JSON, no markdown or extra text. All text in ENGLISH.",
-    "es": "Eres especialista en biomimética y educación maker para niños de primaria. Analiza la imagen de un patrón natural y genera orientaciones pedagógicas para reproducirlo en Tinkercad Codeblocks. Responde SOLO con JSON válido, sin markdown ni texto extra. Todos los textos en ESPAÑOL."
+    "pt": "És especialista em biomimética e educação maker para crianças do 1º ciclo. Analisa a imagem de um padrão natural e gera orientações pedagógicas para reproduzir no Tinkercad Codeblocks. Responde APENAS com JSON válido, sem markdown nem texto extra. TODOS OS TEXTOS DO JSON DEVEM ESTAR EM PORTUGUÊS EUROPEU.",
+    "en": "You are a specialist in biomimicry and maker education for primary school children. Analyse the image of a natural pattern and generate pedagogical guidance to reproduce it in Tinkercad Codeblocks. Respond ONLY with valid JSON, no markdown or extra text. ALL TEXT VALUES IN THE JSON MUST BE IN ENGLISH. Do not use Portuguese or Spanish.",
+    "es": "Eres especialista en biomimética y educación maker para niños de primaria. Analiza la imagen de un patrón natural y genera orientaciones pedagógicas para reproducirlo en Tinkercad Codeblocks. Responde SOLO con JSON válido, sin markdown ni texto extra. TODOS LOS TEXTOS DEL JSON DEBEN ESTAR EN ESPAÑOL. No uses portugués ni inglés."
 }
 
 JSON_SCHEMA = """
@@ -454,7 +454,7 @@ def analyze():
                 "role": "user",
                 "content": [
                     {"type": "image", "source": {"type": "base64", "media_type": data.get("mime_type", "image/jpeg"), "data": data["image_b64"]}},
-                    {"type": "text", "text": "Analisa este padrão natural e devolve o JSON."}
+                    {"type": "text", "text": f"Analisa este padrão natural e devolve o JSON. Língua de resposta: {lang.upper()}. Todos os campos de texto do JSON devem estar em {['Português','English','Español'][['pt','en','es'].index(lang)]}."}
                 ]
             }]
         )
