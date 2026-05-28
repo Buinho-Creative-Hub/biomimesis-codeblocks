@@ -23,31 +23,53 @@ Formato do JSON de resposta (usa sempre esta estrutura, com os textos na língua
   "momento2": {
     "texto": "Explica as variáveis matemáticas em linguagem simples.",
     "variaveis": [
-      {"nome": "Ângulo de rotação", "valor_tipico": "137", "unidade": "graus", "explicacao": "porquê este valor existe na natureza"},
-      {"nome": "Factor de crescimento", "valor_tipico": "1.15", "unidade": "x", "explicacao": "como o padrão cresce a cada repetição"},
-      {"nome": "Número de elementos", "valor_tipico": "60", "unidade": "unidades", "explicacao": "quantas vezes o padrão se repete"}
+      {"nome": "Ângulo", "valor_tipico": "137", "unidade": "graus", "explicacao": "porquê este valor existe na natureza"},
+      {"nome": "Raio Base", "valor_tipico": "2", "unidade": "mm", "explicacao": "tamanho inicial do padrão"},
+      {"nome": "Crescimento", "valor_tipico": "1.08", "unidade": "x", "explicacao": "quanto o padrão cresce a cada repetição"},
+      {"nome": "Passos", "valor_tipico": "60", "unidade": "unidades", "explicacao": "quantas vezes o padrão se repete"}
     ]
   },
   "momento3": {
-    "texto": "Instrução pedagógica para construir no Tinkercad.",
+    "texto": "Instrução pedagógica para construir no Tinkercad. Explica brevemente o que cada grupo de blocos faz.",
     "blocos": [
       {"type": "set", "keyword": "Set", "variable": "Ângulo", "value": "137"},
-      {"type": "set", "keyword": "Set", "variable": "Raio Base", "value": "4"},
-      {"type": "set", "keyword": "Set", "variable": "Elementos", "value": "60"},
-      {"type": "repeat", "keyword": "Repeat", "variable": "Elementos", "value": null},
-      {"type": "fn", "keyword": "Calcular Raio", "variable": "Raio Base × i", "value": null},
-      {"type": "move", "keyword": "Move", "variable": "x y z", "value": null}
+      {"type": "set", "keyword": "Set", "variable": "Raio Base", "value": "2"},
+      {"type": "set", "keyword": "Set", "variable": "Crescimento", "value": "1.08"},
+      {"type": "set", "keyword": "Set", "variable": "Passos", "value": "60"},
+      {"type": "set", "keyword": "Set", "variable": "i", "value": "1"},
+      {"type": "repeat", "keyword": "Repeat", "variable": "Passos", "value": null},
+      {"type": "set", "keyword": "Set", "variable": "Raio Atual", "value": "Raio Base × (Crescimento ^ i)"},
+      {"type": "set", "keyword": "Set", "variable": "Ângulo Atual", "value": "Ângulo × i"},
+      {"type": "fn", "keyword": "Add Shape", "variable": "Radius 5", "value": null},
+      {"type": "move", "keyword": "Move X", "variable": "cos(Ângulo Atual) × Raio Atual", "value": null},
+      {"type": "move", "keyword": "Move Y", "variable": "sin(Ângulo Atual) × Raio Atual", "value": null},
+      {"type": "move", "keyword": "Move Z", "variable": "i × 0.3", "value": null},
+      {"type": "change", "keyword": "Change", "variable": "i", "value": "+1"}
     ]
   },
   "momento4": {
-    "passos": ["passo 1", "passo 2", "passo 3", "passo 4"]
+    "passos": [
+      "Passo detalhado 1: criar as variáveis — explica o nome e valor de cada uma e porque existe",
+      "Passo detalhado 2: criar o bloco Repeat e explicar o que acontece dentro",
+      "Passo detalhado 3: calcular Raio Atual e Ângulo Atual dentro do loop",
+      "Passo detalhado 4: adicionar a forma e mover para a posição correcta",
+      "Passo detalhado 5: incrementar i com Change i by 1 — CRÍTICO, sem isto tudo fica no mesmo sítio",
+      "Passo detalhado 6: correr e observar o resultado, experimentar mudar os valores"
+    ]
   },
   "momento5": {
     "outros_exemplos": ["exemplo na natureza 1", "exemplo na natureza 2"],
     "aplicacoes_humanas": ["aplicação humana 1", "aplicação humana 2"],
     "pergunta_reflexao": "Pergunta aberta para o aluno pensar."
   }
-}"""
+}
+
+REGRAS CRÍTICAS para o momento3:
+1. O loop DEVE sempre terminar com {"type":"change","keyword":"Change","variable":"i","value":"+1"} — sem isto nada se move.
+2. Usar SEMPRE um iterador explícito 'i' inicializado a 1 antes do loop e incrementado no fim de cada iteração.
+3. O Raio Atual deve usar potência (Crescimento ^ i) para crescimento logarítmico, não multiplicação simples.
+4. As coordenadas X e Y usam cos() e sin() do Ângulo Atual — nunca valores fixos.
+5. O momento4 deve ter 5-6 passos muito detalhados, escritos para uma criança de 8 anos, com o nome exacto dos blocos a criar no Tinkercad."""
 
 LEVELS = {
     "pt": {"basic": "iniciante (6-7 anos)", "intermediate": "intermédio (8-9 anos)", "advanced": "avançado (9-10 anos)"},
@@ -348,7 +370,7 @@ function showM(m) {
 
 function cbBlocks(blocks) {
   if (!blocks || !blocks.length) return '';
-  var map = {set:'cs', repeat:'cr', fn:'cf', move:'cm'};
+  var map = {set:'cs', repeat:'cr', fn:'cf', move:'cm', change:'cr'};
   return blocks.map(function(b) {
     return '<div class="cbl">' +
       '<span class="cbb ' + (map[b.type]||'cs') + '">' + (b.keyword||'Set') + '</span>' +
