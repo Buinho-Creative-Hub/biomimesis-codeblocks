@@ -13,24 +13,21 @@ SYSTEM_PROMPTS = {
 }
 
 JSON_SCHEMA = """
-Formato do JSON de resposta (usa sempre esta estrutura, com os textos na língua pedida):
+Devolve APENAS este JSON (textos na língua pedida):
 {
-  "padrao": "nome curto do padrão",
+  "padrao": "nome do padrão identificado",
   "momento1": {
-    "texto": "Descrição simples do padrão para crianças, 2-3 frases.",
-    "caracteristicas": ["característica 1", "característica 2", "característica 3"]
+    "texto": "2-3 frases simples descrevendo o padrão para crianças.",
+    "caracteristicas": ["3 a 4 características observáveis"]
   },
   "momento2": {
-    "texto": "Explica as variáveis matemáticas em linguagem simples.",
+    "texto": "Explica as variáveis em linguagem muito simples.",
     "variaveis": [
-      {"nome": "Ângulo", "valor_tipico": "137", "unidade": "graus", "explicacao": "porquê este valor existe na natureza"},
-      {"nome": "Raio Base", "valor_tipico": "2", "unidade": "mm", "explicacao": "tamanho inicial do padrão"},
-      {"nome": "Crescimento", "valor_tipico": "1.08", "unidade": "x", "explicacao": "quanto o padrão cresce a cada repetição"},
-      {"nome": "Passos", "valor_tipico": "60", "unidade": "unidades", "explicacao": "quantas vezes o padrão se repete"}
+      {"nome": "nome da variável", "valor_tipico": "valor numérico", "unidade": "unidade", "explicacao": "porque existe na natureza"}
     ]
   },
   "momento3": {
-    "texto": "Instrução pedagógica para construir no Tinkercad. Explica brevemente o que cada grupo de blocos faz.",
+    "texto": "Explica o que o código vai fazer, passo a passo, para uma criança de 8 anos.",
     "blocos": [
       {"type": "set", "keyword": "Set", "variable": "Ângulo", "value": "137"},
       {"type": "set", "keyword": "Set", "variable": "Raio Base", "value": "2"},
@@ -38,38 +35,26 @@ Formato do JSON de resposta (usa sempre esta estrutura, com os textos na língua
       {"type": "set", "keyword": "Set", "variable": "Passos", "value": "60"},
       {"type": "set", "keyword": "Set", "variable": "i", "value": "1"},
       {"type": "repeat", "keyword": "Repeat", "variable": "Passos", "value": null},
-      {"type": "set", "keyword": "Set", "variable": "Raio Atual", "value": "Raio Base × (Crescimento ^ i)"},
-      {"type": "set", "keyword": "Set", "variable": "Ângulo Atual", "value": "Ângulo × i"},
-      {"type": "fn", "keyword": "Add Shape", "variable": "Radius 5", "value": null},
-      {"type": "move", "keyword": "Move X", "variable": "cos(Ângulo Atual) × Raio Atual", "value": null},
-      {"type": "move", "keyword": "Move Y", "variable": "sin(Ângulo Atual) × Raio Atual", "value": null},
-      {"type": "move", "keyword": "Move Z", "variable": "i × 0.3", "value": null},
-      {"type": "change", "keyword": "Change", "variable": "i", "value": "+1"}
+      {"type": "set", "keyword": "Set", "variable": "Raio Atual", "value": "Raio Base * (Crescimento ^ i)"},
+      {"type": "set", "keyword": "Set", "variable": "Ang Atual", "value": "Ângulo * i"},
+      {"type": "fn", "keyword": "Add Sphere", "variable": "Radius 5", "value": null},
+      {"type": "move", "keyword": "Move X", "variable": "cos(Ang Atual) * Raio Atual", "value": null},
+      {"type": "move", "keyword": "Move Y", "variable": "sin(Ang Atual) * Raio Atual", "value": null},
+      {"type": "move", "keyword": "Move Z", "variable": "i * 0.3", "value": null},
+      {"type": "change", "keyword": "Change i", "variable": "by", "value": "+1"}
     ]
   },
   "momento4": {
     "passos": [
-      "Passo detalhado 1: criar as variáveis — explica o nome e valor de cada uma e porque existe",
-      "Passo detalhado 2: criar o bloco Repeat e explicar o que acontece dentro",
-      "Passo detalhado 3: calcular Raio Atual e Ângulo Atual dentro do loop",
-      "Passo detalhado 4: adicionar a forma e mover para a posição correcta",
-      "Passo detalhado 5: incrementar i com Change i by 1 — CRÍTICO, sem isto tudo fica no mesmo sítio",
-      "Passo detalhado 6: correr e observar o resultado, experimentar mudar os valores"
+      "5 a 6 passos muito detalhados para uma criança de 8 anos, com os nomes exactos dos blocos Tinkercad. O último passo DEVE mencionar o bloco Change i by 1 e explicar que sem ele nada se move."
     ]
   },
   "momento5": {
-    "outros_exemplos": ["exemplo na natureza 1", "exemplo na natureza 2"],
-    "aplicacoes_humanas": ["aplicação humana 1", "aplicação humana 2"],
-    "pergunta_reflexao": "Pergunta aberta para o aluno pensar."
+    "outros_exemplos": ["2 exemplos do mesmo padrão noutros seres vivos"],
+    "aplicacoes_humanas": ["2 aplicações humanas inspiradas neste padrão"],
+    "pergunta_reflexao": "Uma pergunta aberta para o aluno explorar."
   }
-}
-
-REGRAS CRÍTICAS para o momento3:
-1. O loop DEVE sempre terminar com {"type":"change","keyword":"Change","variable":"i","value":"+1"} — sem isto nada se move.
-2. Usar SEMPRE um iterador explícito 'i' inicializado a 1 antes do loop e incrementado no fim de cada iteração.
-3. O Raio Atual deve usar potência (Crescimento ^ i) para crescimento logarítmico, não multiplicação simples.
-4. As coordenadas X e Y usam cos() e sin() do Ângulo Atual — nunca valores fixos.
-5. O momento4 deve ter 5-6 passos muito detalhados, escritos para uma criança de 8 anos, com o nome exacto dos blocos a criar no Tinkercad."""
+}"""
 
 LEVELS = {
     "pt": {"basic": "iniciante (6-7 anos)", "intermediate": "intermédio (8-9 anos)", "advanced": "avançado (9-10 anos)"},
@@ -465,7 +450,7 @@ def analyze():
     try:
         response = client.messages.create(
             model="claude-sonnet-4-5",
-            max_tokens=1500,
+            max_tokens=2000,
             system=system,
             messages=[{
                 "role": "user",
