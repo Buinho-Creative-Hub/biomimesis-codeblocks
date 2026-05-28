@@ -196,16 +196,16 @@ select{width:100%;font-family:'Asap',sans-serif;font-size:13px;padding:8px 10px;
   <div class="pl">
     <div>
       <div class="slbl">{{ t.pattern_lbl }}</div>
-      <label class="upzone" for="fi">
+      <div class="upzone" id="upzone" style="position:relative">
+        <input type="file" id="fi" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2">
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
           <rect x="3" y="7" width="26" height="18" rx="3" fill="#2038A615" stroke="#2038A6" stroke-width="1.5"/>
           <circle cx="12" cy="14" r="3" fill="#2038A630"/>
           <path d="M3 21 l7-7 6 6 4-4 8 5" stroke="#2038A6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
         </svg>
-        <div class="up-t" id="lbl-up">{{ t.upload_btn }}</div>
+        <div class="up-t">{{ t.upload_btn }}</div>
         <div class="up-h">{{ t.upload_hint }}</div>
-      </label>
-      <input type="file" id="fi" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0">
+      </div>
       <img id="prevImg" alt="pattern">
     </div>
     <div>
@@ -254,10 +254,65 @@ select{width:100%;font-family:'Asap',sans-serif;font-size:13px;padding:8px 10px;
 
 <script>
 var LANG = '{{ lang }}';
-var T = {{ t_json }};
+var ALL_T = {
+  pt: {
+    pattern_lbl:"padrão natural", upload_btn:"clica aqui para carregar foto", upload_hint:"folha · concha · favo · espiral · casca",
+    level_lbl:"nível do aluno", level_basic:"iniciante — 1º e 2º ano", level_intermediate:"intermédio — 3º e 4º ano", level_advanced:"avançado — com experiência Codeblocks",
+    analyze_btn:"analisar padrão", analyze_btn2:"analisar outro padrão",
+    empty:"clica em \"carregar foto\" e escolhe uma imagem de um padrão da natureza", error:"Erro: ",
+    m1:"observar", m2:"abstrair", m3:"emular", m4:"prototipar", m5:"transferir",
+    m2_title:"abstrair as variáveis", m3_title:"emular em Codeblocks", m4_title:"prototipar no Tinkercad", m5_title:"transferir e avaliar",
+    nature_lbl:"na natureza", human_lbl:"feito por humanos", think_lbl:"para pensar"
+  },
+  en: {
+    pattern_lbl:"natural pattern", upload_btn:"click here to upload photo", upload_hint:"leaf · shell · honeycomb · spiral · bark",
+    level_lbl:"student level", level_basic:"beginner — year 1 & 2", level_intermediate:"intermediate — year 3 & 4", level_advanced:"advanced — with Codeblocks experience",
+    analyze_btn:"analyse pattern", analyze_btn2:"analyse another pattern",
+    empty:"click \"upload photo\" and choose an image of a natural pattern", error:"Error: ",
+    m1:"observe", m2:"abstract", m3:"emulate", m4:"prototype", m5:"transfer",
+    m2_title:"abstract the variables", m3_title:"emulate in Codeblocks", m4_title:"prototype in Tinkercad", m5_title:"transfer & evaluate",
+    nature_lbl:"in nature", human_lbl:"made by humans", think_lbl:"think about it"
+  },
+  es: {
+    pattern_lbl:"patrón natural", upload_btn:"haz clic aquí para subir foto", upload_hint:"hoja · concha · panal · espiral · corteza",
+    level_lbl:"nivel del alumno", level_basic:"iniciante — 1º y 2º curso", level_intermediate:"intermedio — 3º y 4º curso", level_advanced:"avanzado — con experiencia Codeblocks",
+    analyze_btn:"analizar patrón", analyze_btn2:"analizar otro patrón",
+    empty:"haz clic en \"subir foto\" y elige una imagen de un patrón de la naturaleza", error:"Error: ",
+    m1:"observar", m2:"abstraer", m3:"emular", m4:"prototipar", m5:"transferir",
+    m2_title:"abstraer las variables", m3_title:"emular en Codeblocks", m4_title:"prototipar en Tinkercad", m5_title:"transferir y evaluar",
+    nature_lbl:"en la naturaleza", human_lbl:"hecho por humanos", think_lbl:"para reflexionar"
+  }
+};
+var T = ALL_T[LANG];
 
 function setLang(l) {
-  window.location.href = '/?lang=' + l;
+  LANG = l;
+  T = ALL_T[l];
+  // update lang buttons
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    b.classList.toggle('on', b.textContent.trim().toLowerCase() === l);
+  });
+  // update static UI strings
+  document.querySelector('.slbl').textContent = T.pattern_lbl;
+  document.querySelector('.up-t').textContent = T.upload_btn;
+  document.querySelector('.up-h').textContent = T.upload_hint;
+  var lvlLbls = document.querySelectorAll('.slbl');
+  if (lvlLbls[1]) lvlLbls[1].textContent = T.level_lbl;
+  var opts = document.getElementById('lvl').options;
+  opts[0].text = T.level_basic; opts[1].text = T.level_intermediate; opts[2].text = T.level_advanced;
+  document.getElementById('lbl-go').textContent = T.analyze_btn;
+  document.querySelector('.empty p').textContent = T.empty;
+  // update pills
+  var pillLabels = [T.m1, T.m2, T.m3, T.m4, T.m5];
+  document.querySelectorAll('.pill').forEach(function(p, i) {
+    p.textContent = (i+1) + ' · ' + pillLabels[i];
+    if (p.classList.contains('on')) p.textContent = (i+1) + ' · ' + pillLabels[i];
+  });
+  // update card titles
+  var titles = [T.m1, T.m2_title, T.m3_title, T.m4_title, T.m5_title];
+  document.querySelectorAll('.mtit').forEach(function(el, i) { el.textContent = titles[i]; });
+  // update html lang
+  document.documentElement.lang = l;
 }
 
 var imgB64 = null, imgMime = 'image/jpeg', result = null;
@@ -272,7 +327,7 @@ document.getElementById('fi').addEventListener('change', function(e) {
     var p = document.getElementById('prevImg');
     p.src = ev.target.result;
     p.style.display = 'block';
-    document.querySelector('.upzone').style.display = 'none';
+    document.getElementById('upzone').style.display = 'none';
     document.getElementById('btnGo').disabled = false;
     document.getElementById('errmsg').style.display = 'none';
   };
